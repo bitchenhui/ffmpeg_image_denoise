@@ -13,14 +13,13 @@
 
 ## 文件说明
 
-- `denoise_comparison.sh` - 基础版本脚本
-- `denoise_advanced.sh` - 高级版本脚本（推荐使用）
+- `denoise_advanced.sh` - 高级版本脚本
 - `denoise_presets.conf` - 预设配置文件
 - `README.md` - 使用说明文档
 
 ## 系统要求
 
-- **操作系统**：Linux、macOS、Windows (WSL)
+- **操作系统**：Linux、macOS
 - **FFmpeg**：版本 4.0 或更高
 - **Bash**：版本 4.0 或更高（支持关联数组）
 - **可选依赖**：`jq`（用于JSON解析）、`ffprobe`（用于文件信息）
@@ -28,18 +27,18 @@
 ## 安装步骤
 
 1. **克隆或下载脚本文件**
+   
    ```bash
    git clone <repository_url>
    cd ffmpeg-denoise-scripts
    ```
-
 2. **设置执行权限**
+   
    ```bash
-   chmod +x denoise_comparison.sh
    chmod +x denoise_advanced.sh
    ```
-
 3. **安装FFmpeg**（如果尚未安装）
+   
    ```bash
    # Ubuntu/Debian
    sudo apt update && sudo apt install ffmpeg
@@ -91,6 +90,7 @@
 ## 支持的算法
 
 ### 1. ATADenoise（自适应时间平均降噪器）
+
 - **适用场景**：时间相关的视频噪声、摄像机抖动
 - **主要参数**：
   - `0a`, `1a`, `2a`：各平面阈值A（0-0.3）
@@ -99,6 +99,7 @@
   - `algorithm`：算法变体（p=并行，s=串行）
 
 ### 2. VagueDenoiser（小波降噪器）
+
 - **适用场景**：各种类型的图像噪声，平衡效果和速度
 - **主要参数**：
   - `threshold`：过滤强度（0-∞）
@@ -107,6 +108,7 @@
   - `percent`：完全降噪百分比（0-100）
 
 ### 3. FFTdnoiz（3D FFT降噪器）
+
 - **适用场景**：需要精确频域控制的场景
 - **主要参数**：
   - `sigma`：噪声sigma常数（0-30）
@@ -115,6 +117,7 @@
   - `overlap`：块重叠（0.2-0.8）
 
 ### 4. OWDenoise（过完备小波降噪器）
+
 - **适用场景**：需要分别控制亮度和色度降噪
 - **主要参数**：
   - `depth`：位深度（8-16）
@@ -122,6 +125,7 @@
   - `chroma_strength`：色度强度（0-1000）
 
 ### 5. DCTdnoiz（DCT域降噪器）
+
 - **适用场景**：块状噪声、需要自定义处理的场景
 - **主要参数**：
   - `sigma`：噪声阈值
@@ -152,6 +156,7 @@
 ## 参数调整指南
 
 ### 轻度降噪（保持细节）
+
 ```bash
 # ATADenoise
 -p 'atadenoise:0a=0.01:0b=0.02:s=5'
@@ -164,6 +169,7 @@
 ```
 
 ### 强度降噪（最大效果）
+
 ```bash
 # ATADenoise
 -p 'atadenoise:0a=0.05:0b=0.10:s=15:algorithm=s'
@@ -176,6 +182,7 @@
 ```
 
 ### 快速处理（实时需求）
+
 ```bash
 # ATADenoise
 -p 'atadenoise:s=5:algorithm=p'
@@ -232,24 +239,25 @@ dctdnoiz            30             2.9M
 ### 常见问题
 
 1. **FFmpeg未找到**
+   
    ```bash
    错误: 未找到ffmpeg命令
    解决: 安装FFmpeg或确保在PATH中
    ```
-
 2. **配置文件不存在**
+   
    ```bash
    错误: 配置文件不存在: denoise_presets.conf
    解决: 确保配置文件在正确位置
    ```
-
 3. **参数格式错误**
+   
    ```bash
    错误: 不支持的算法 'unknown'
    解决: 检查算法名称拼写
    ```
-
 4. **内存不足**
+   
    ```bash
    解决: 减少块大小或使用更快的算法
    ```
@@ -302,16 +310,20 @@ done
 ## 更新日志
 
 ### v1.0.0
+
 - 初始版本发布
 - 支持5种主要降噪算法
 - 基础参数调整功能
 
 ### v1.1.0
+
 - 添加预设配置系统
 - 支持性能比较报告
 - 增强的错误处理
 
 ### v1.2.0
+
 - 添加详细输出模式
 - 支持自定义配置文件
 - 改进的用户界面
+
